@@ -15,10 +15,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "lines")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Line {
     @Id
@@ -30,7 +32,4 @@ public class Line {
    
     @OneToMany( mappedBy = "line",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Station_Line> lineStations;
-    @OneToMany(mappedBy = "line", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Station_Line> stations; // רשימת תחנה במסלול קו
-
-}
+ }

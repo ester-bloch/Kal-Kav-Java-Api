@@ -2,17 +2,17 @@ package com.example.DTOs;
 
 import java.util.List;
 
-import com.example.Models.Station_Line;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class StationDto {
-    private Long id;
-    private String name;
-    private List<Station_Line> lineStations;
 
+public class LineDto {
+    private Long id;
+    private String number;
+    private String source;
+    private String destination;
+    private List<Long> lineStationsIds;
 }

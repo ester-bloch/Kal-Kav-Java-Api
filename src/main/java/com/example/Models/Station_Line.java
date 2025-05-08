@@ -11,9 +11,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "station_line")
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Station_Line {
@@ -27,5 +29,5 @@ public class Station_Line {
 
    @ManyToOne 
    @JoinTable(name = "line")
-   private Line line;    
+   private Line line;
 }

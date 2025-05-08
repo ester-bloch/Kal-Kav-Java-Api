@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BusDto {
+public class Station_LineDto {
     private Long id;
-    private String license_plate;
-    private int seats;
+    private int stationOrder;
+    private String stationName;
+    private String lineNumber;
 }
