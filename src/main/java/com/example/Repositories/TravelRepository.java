@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.Models.Travel;
 
 @Repository
-public interface TravelConvertor extends JpaRepository<Travel,Long>{
+public interface TravelRepository extends JpaRepository<Travel,Long>{
     
 }

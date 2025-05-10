@@ -9,13 +9,18 @@ import com.example.Models.Station;
 public class StationConvertor {
   public static StationDto toDTO(Station Station) {
 
-        StationDto StationDTO = new StationDto(Station.getId(),Station.getName(),Station.getLineStations());
+        StationDto StationDTO = new StationDto();
+        StationDTO.setId(Station.getId());
+        StationDTO.setName(Station.getName());
+        StationDTO.setLineStations(Station.getLineStations());
         return StationDTO;
     }
 
     public static Station toModel(StationDto StationDTO) {
-        Station newStation = new Station(StationDTO.getId(),StationDTO.getName(),
-        );
+        Station newStation = new Station();
+        newStation.setId(StationDTO.getId());
+        newStation.setName(StationDTO.getName());
+        newStation.setLineStations(StationDTO.getLineStations());
         return newStation;
     }
 

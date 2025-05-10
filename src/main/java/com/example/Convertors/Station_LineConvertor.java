@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.DTOs.Station_LineDto;
 import com.example.Models.Station_Line;
-import com.example.Repositories.Station_LineRepository;
+import com.example.Repositories.LineRepository;
+import com.example.Repositories.StationRepository;
 
 public class Station_LineConvertor {
     @Autowired
-    private static Station_LineRepository  station_LineRepository;
+    private static LineRepository  lineRepository;
+    @Autowired
+    private static StationRepository stationRepository;
      public static Station_LineDto toDTO(Station_Line Station_Line) {
         Station_LineDto Station_LineDTO = new Station_LineDto();
         Station_LineDTO.setId(Station_Line.getId());
@@ -25,8 +28,8 @@ public class Station_LineConvertor {
         Station_Line newStation_Line = new Station_Line();
         newStation_Line.setId(Station_LineDTO.getId());
         newStation_Line.setStationOrder(Station_LineDTO.getStationOrder());
-        newStation_Line.setLine(Station_LineDTO.getLineNumber());
-        newStation_Line.setStationName(Station_LineDTO.getStation().getName());
+        newStation_Line.setLine(lineRepository.findByNumber(Station_LineDTO.getLineNumber()).get());
+        newStation_Line.setStation(stationRepository.findByName(Station_LineDTO.getStationName()).get());
         return newStation_Line;
     }
 

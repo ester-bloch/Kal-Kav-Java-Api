@@ -3,11 +3,24 @@ package com.example.Convertors;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.DTOs.TravelDto;
+import com.example.Models.Line;
 import com.example.Models.Travel;
+import com.example.Repositories.BusRepository;
+import com.example.Repositories.DriverRepository;
+import com.example.Repositories.LineRepository;
 
 public class TravelConvertor {
+    @Autowired
+    private static BusRepository busRepository;
+    @Autowired
+    private static DriverRepository driverRepository;
+    @Autowired 
+    private static LineRepository lineRepository;
     public static TravelDto toDTO(Travel travel) {
+
         TravelDto TravelDTO = new TravelDto();
         TravelDTO.setId(travel.getId());
         TravelDTO.setDepartureTime(travel.getDepartureTime());
@@ -21,9 +34,9 @@ public class TravelConvertor {
         Travel newTravel = new Travel();
         newTravel.setId(TravelDTO.getId());
         newTravel.setDepartureTime(TravelDTO.getDepartureTime());
-        newTravel.setBus(TravelDTO.getBus().getId());
-        newTravel.setDriverName(TravelDTO.getDriver().getName());
-        newTravel.setLineNumber(TravelDTO.getLine().getNumber());
+        newTravel.setBus(busRepository.findById(TravelDTO.getBusId()).get());
+        newTravel.setDriver(driverRepository.findByName(TravelDTO.getDriverName()).get());
+        newTravel.setLine(lineRepository.findByNumber(TravelDTO.getLineNumber()).get());
         return newTravel;
     }
 
