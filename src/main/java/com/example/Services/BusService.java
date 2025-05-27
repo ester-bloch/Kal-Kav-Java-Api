@@ -5,12 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import com.example.Convertors.BusConvertor;
 import com.example.DTOs.BusDto;
 import com.example.Models.Bus;
 import com.example.Repositories.BusRepository;
-
+@Service
 public class BusService {
     @Autowired
     private BusRepository busRepository;

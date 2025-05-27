@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import com.example.Convertors.Station_LineConvertor;
 import com.example.Convertors.Station_LineConvertor;
@@ -13,7 +14,7 @@ import com.example.Models.Station_Line;
 import com.example.DTOs.Station_LineDto;
 import com.example.Repositories.Station_LineRepository;
 import com.example.Repositories.Station_LineRepository;
-
+@Service
 public class Station_LineService {
     @Autowired
     private Station_LineRepository Station_LineRepository;

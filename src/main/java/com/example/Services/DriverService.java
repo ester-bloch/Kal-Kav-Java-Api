@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import com.example.Convertors.DriverConvertor;
 import com.example.DTOs.DriverDto;
 import com.example.Models.Driver;
 import com.example.Repositories.DriverRepository;
+@Service
 
 public class DriverService {
     @Autowired

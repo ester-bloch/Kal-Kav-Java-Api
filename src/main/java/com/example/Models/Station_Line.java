@@ -1,14 +1,6 @@
 package com.example.Models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,12 +14,14 @@ public class Station_Line {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private int stationOrder;
-   @ManyToOne 
-   @JoinTable(name = "station_line")
-   private Station station;
 
-   @ManyToOne 
-   @JoinTable(name = "line")
-   private Line line;
+    @ManyToOne 
+    @JoinColumn(name = "station_id") // שיניתי מ-@JoinTable ל-@JoinColumn עם שם העמודה המתאים
+    private Station station;
+
+    @ManyToOne 
+    @JoinColumn(name = "line_id") // שיניתי מ-@JoinTable ל-@JoinColumn עם שם העמודה המתאים
+    private Line line;
 }

@@ -5,12 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import com.example.Convertors.LineConvertor;
 import com.example.DTOs.LineDto;
 import com.example.Models.Line;
 import com.example.Repositories.LineRepository;
-
+@Service
 public class LineService {
     @Autowired
     private LineRepository LineRepository;

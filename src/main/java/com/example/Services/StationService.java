@@ -5,12 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import com.example.Convertors.StationConvertor;
 import com.example.DTOs.StationDto;
 import com.example.Models.Station;
 import com.example.Repositories.StationRepository;
-
+@Service
 public class StationService {
     @Autowired
     private StationRepository StationRepository;
