@@ -26,7 +26,9 @@ public class TravelConroller {
 
     @GetMapping("/all")
     public ResponseEntity<List<TravelDto>> getAll() {
-        return ResponseEntity.ok().body(TravelService.getAllTraveles().get());
+        if (TravelService.getAllTravels().isPresent())
+            return ResponseEntity.ok().body(TravelService.getAllTravels().get());
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/byId/{id}")

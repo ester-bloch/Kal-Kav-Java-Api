@@ -26,7 +26,9 @@ public class Station_LineController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Station_LineDto>> getAll() {
-        return ResponseEntity.ok().body(Station_LineService.getAllStation_Linees().get());
+        if (Station_LineService.getAllStation_Linees().isPresent())
+            return ResponseEntity.ok().body(Station_LineService.getAllStation_Linees().get());
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/byId/{id}")

@@ -10,5 +10,4 @@ import com.example.Models.Line;
 @Repository
 public interface LineRepository extends JpaRepository<Line,Long>{
         Optional<Line> findByNumber(String number);
-
 }

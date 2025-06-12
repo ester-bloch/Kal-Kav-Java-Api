@@ -29,6 +29,9 @@ public class LineConvertor {
         newLine.setSource(LineDTO.getSource());
         newLine.setDestination(LineDTO.getDestination());
         newLine.setNumber(LineDTO.getNumber());
+        if(LineDTO.getLineStationsIds()!=null)
+            // Assuming that the station_LineRepository is already initialized and available
+                // This will fetch the Station_Line entities based on the IDs provided in LineDTO
         newLine.setLineStations(LineDTO.getLineStationsIds().stream().map((p)->station_LineRepository.findById(p).get()).collect(Collectors.toList()));
                 return newLine;
     }

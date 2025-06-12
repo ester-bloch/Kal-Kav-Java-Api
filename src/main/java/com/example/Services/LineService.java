@@ -8,15 +8,20 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.example.Convertors.LineConvertor;
+import com.example.Convertors.StationConvertor;
 import com.example.DTOs.LineDto;
+import com.example.DTOs.StationDto;
+import com.example.DTOs.Station_LineDto;
 import com.example.Models.Line;
+import com.example.Models.Station_Line;
 import com.example.Repositories.LineRepository;
+
 @Service
 public class LineService {
     @Autowired
     private LineRepository LineRepository;
 
-    public Optional<List<LineDto>> getAllLinees() {
+    public Optional<List<LineDto>> getAllLines() {
         List<LineDto> ans = LineConvertor.toDTOList(LineRepository.findAll());
         if (ans != null && !ans.isEmpty())
             return Optional.of(ans);
@@ -31,18 +36,40 @@ public class LineService {
     }
 
     public boolean createLine(LineDto LineDto) {
-        Line Line=LineConvertor.toModel(LineDto);
-        if(!LineRepository.exists(Example.of(Line))){
-        LineRepository.save(Line);
-        return true;
+        Line Line = LineConvertor.toModel(LineDto);
+        if (!LineRepository.exists(Example.of(Line))) {
+            LineRepository.save(Line);
+            return true;
+        }
+        return false;
     }
-    return false; 
-    }
+
     public boolean deleteLine(Long id) {
-        if(LineRepository.existsById(id)){
-        LineRepository.deleteById(id);
-        return true;
+        if (LineRepository.existsById(id)) {
+            LineRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
-    return false; 
+
+    public List<String> GetAllLineStations(String number) throws LineNotFoundException {
+        Optional<Line> line = LineRepository.findByNumber(number);
+        if (!line.isPresent())
+            throw new LineNotFoundException("Line with number " + number + " not found.");
+        List<Station_Line> Station_Lines = line.get().getLineStations();
+        if (Station_Lines == null || Station_Lines.isEmpty())
+            throw new LineNotFoundException("No stations found for line with number " + number + ".");
+        List<String> stationNames = Station_Lines.stream()
+                .map(stationLine -> StationConvertor.toDTO(stationLine.getStation())).map(StationDto::getName)
+                .toList();
+        if (stationNames == null || stationNames.isEmpty())
+            throw new LineNotFoundException("No stations found for line with number " + number + ".");
+        return stationNames;
+    }
+
+    public class LineNotFoundException extends RuntimeException {
+        public LineNotFoundException(String message) {
+            super(message);
+        }
     }
 }

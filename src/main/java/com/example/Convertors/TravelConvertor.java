@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.DTOs.TravelDto;
-import com.example.Models.Line;
 import com.example.Models.Travel;
 import com.example.Repositories.BusRepository;
 import com.example.Repositories.DriverRepository;

@@ -2,9 +2,7 @@ package com.example.DTOs;
 
 import java.sql.Time;
 
-import com.example.Models.Bus;
 
-import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -16,17 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTOs.BusDto;
 
-
 @RestController
 @RequestMapping("/Buses")
 public class BusController {
-    
+
     @Autowired
     public com.example.Services.BusService BusService;
 
     @GetMapping("/all")
     public ResponseEntity<List<BusDto>> getAll() {
-        return ResponseEntity.ok().body(BusService.getAllBuses().get());
+        if (BusService.getAllBuses().isPresent())
+            return ResponseEntity.ok().body(BusService.getAllBuses().get());
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/byId/{id}")

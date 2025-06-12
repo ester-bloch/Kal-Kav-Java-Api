@@ -14,7 +14,7 @@ import com.example.Repositories.TravelRepository;
 public class TravelService {
     private TravelRepository travelRepository;
 
-    public Optional<List<TravelDto>> getAllTraveles() {
+    public Optional<List<TravelDto>> getAllTravels() {
         List<TravelDto> ans = TravelConvertor.toDTOList(travelRepository.findAll());
         if (ans != null && !ans.isEmpty())
             return Optional.of(ans);

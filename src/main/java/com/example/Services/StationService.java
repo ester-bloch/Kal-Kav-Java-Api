@@ -16,7 +16,7 @@ public class StationService {
     @Autowired
     private StationRepository StationRepository;
 
-    public Optional<List<StationDto>> getAllStationes() {
+    public Optional<List<StationDto>> getAllStations() {
         List<StationDto> ans = StationConvertor.toDTOList(StationRepository.findAll());
         if (ans != null && !ans.isEmpty())
             return Optional.of(ans);

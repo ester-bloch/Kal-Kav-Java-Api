@@ -13,6 +13,13 @@ import lombok.NoArgsConstructor;
 public class StationDto {
     private Long id;
     private String name;
-    private List<Station_Line> lineStations;
-
+    private List<Station_LineDto> lineStations;
+@Override
+    public String toString() {
+        return "StationDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lineStations=" + lineStations.toString() +
+                '}';
+    }
 }

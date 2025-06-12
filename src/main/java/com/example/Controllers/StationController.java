@@ -26,7 +26,9 @@ public class StationController {
 
     @GetMapping("/all")
     public ResponseEntity<List<StationDto>> getAll() {
-        return ResponseEntity.ok().body(StationService.getAllStationes().get());
+        if (StationService.getAllStations().isPresent())
+            return ResponseEntity.ok().body(StationService.getAllStations().get());
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/byId/{id}")

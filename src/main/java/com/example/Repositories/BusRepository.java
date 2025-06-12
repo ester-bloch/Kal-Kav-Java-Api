@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.example.Models.Bus;
 
+import io.micrometer.common.lang.NonNull;
+
 @Repository
 public interface BusRepository extends JpaRepository<Bus,Long>{
-    Optional<Bus> findById(Long id);
-    
+    Optional<Bus> findById(@NonNull Long id);    
 }

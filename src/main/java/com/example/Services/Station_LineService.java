@@ -8,16 +8,15 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.example.Convertors.Station_LineConvertor;
-import com.example.Convertors.Station_LineConvertor;
 import com.example.DTOs.Station_LineDto;
 import com.example.Models.Station_Line;
-import com.example.DTOs.Station_LineDto;
-import com.example.Repositories.Station_LineRepository;
 import com.example.Repositories.Station_LineRepository;
 @Service
 public class Station_LineService {
     @Autowired
     private Station_LineRepository Station_LineRepository;
+    @Autowired
+    private Station_LineConvertor Station_LineConvertor;
 
     public Optional<List<Station_LineDto>> getAllStation_Linees() {
         List<Station_LineDto> ans = Station_LineConvertor.toDTOList(Station_LineRepository.findAll());
