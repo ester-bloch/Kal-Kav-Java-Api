@@ -41,6 +41,7 @@ public class LineService {
             LineRepository.save(Line);
             return true;
         }
+        System.out.println("Line with number " + LineDto.getNumber() + " already exists.");
         return false;
     }
 

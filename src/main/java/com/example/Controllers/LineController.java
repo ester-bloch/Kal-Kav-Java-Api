@@ -83,25 +83,15 @@ public class LineController {
         }
         return ResponseEntity.notFound().build();
     }
-    @GetMapping("/saveSearch")
+    @GetMapping("/addSearch")
     public ResponseEntity<Object> saveSearch(@RequestParam String number,@RequestParam int numSearch) {
         if (number == null || number.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid line number.");
         }
-        SavedSearch savedSearch =new SavedSearch(number,numSearch);
+        SavedSearch savedSearch =new SavedSearch(number,numSearch)
         SavedSearch.savedSearches.add(savedSearch);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-    @GetMapping("/search")
-    public ResponseEntity<Object> search(@RequestParam int numSearch) {
-        // חפש את האובייקט עם numSearch מתאים
-        Optional<SavedSearch> searchOpt = SavedSearch.savedSearches.stream()
-                .filter(search -> search.getNumSearch() == numSearch)
-                .findFirst();
-        if (searchOpt.isPresent()) {
-            String lineNumber = searchOpt.get().getLine();
-            return getLineStations(lineNumber);
-        }
         return ResponseEntity.notFound().build();
     }
+    @getMapping("/")
+
 }
