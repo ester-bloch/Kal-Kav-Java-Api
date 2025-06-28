@@ -1,9 +1,10 @@
 package com.example.Controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTOs.LineDto;
-import com.example.DTOs.StationDto;
 import com.example.Services.LineService;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -43,7 +43,7 @@ public class LineController {
         return ResponseEntity.notFound().build();
     }
 
-       @PostMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<Void> add(@RequestBody LineDto entity) {
         if (LineService.createLine(entity))
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -56,42 +56,72 @@ public class LineController {
             return ResponseEntity.noContent().build();
         return ResponseEntity.notFound().build();
     }
+
     @GetMapping("/stations")
-    public ResponseEntity<Object> getLineStations(@RequestParam String number) {
+    public ResponseEntity<Object> getLineStations(@RequestParam String number, HttpServletResponse response) {
         if (number == null || number.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid line number.");
         }
         try {
             List<String> stationNames = LineService.GetAllLineStations(number);
-            Map<Integer, List<String>> Response = new HashMap<>();
-            Response.put(stationNames.size(), stationNames);
-            System.out.println(stationNames.size() + " stations found for line " + number);
-            System.out.println(stationNames);
-            // return ResponseEntity.ok().body(Response);
             SavedSearch.LastSearch = new SavedSearch();
-            SavedSearch.LastSearch.setLine( number) ;
+            SavedSearch.LastSearch.setLine(number);
+            addLastSearchCookie(response);
             return ResponseEntity.ok().body(stationNames);
-            // return ResponseEntity.ok().body("Stations for line " + number + ": " + stations.size() + " found.");
         } catch (LineService.LineNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-    @GetMapping("/last")
-    public ResponseEntity<Object> getLastSearch() {
+
+    public void addLastSearchCookie(HttpServletResponse response) {
         if (SavedSearch.LastSearch != null) {
-            return getLineStations(SavedSearch.LastSearch.getLine());
+            Cookie lineCookie = new Cookie("lastLineSearch", SavedSearch.LastSearch.getLine());
+            lineCookie.setPath("/");
+            lineCookie.setMaxAge(86400);
+            response.addCookie(lineCookie);
+        } else {
+            Cookie lineCookie = new Cookie("lastLineSearch", "");
+            lineCookie.setPath("/");
+            lineCookie.setMaxAge(0);
+            response.addCookie(lineCookie);
+        }
+    }
+
+    @GetMapping("/last")
+    public ResponseEntity<Object> getLastSearch(HttpServletResponse response) {
+        if (SavedSearch.LastSearch != null) {
+            return getLineStations(SavedSearch.LastSearch.getLine(), response);
         }
         return ResponseEntity.notFound().build();
     }
+
     @GetMapping("/addSearch")
-    public ResponseEntity<Object> saveSearch(@RequestParam String number,@RequestParam int numSearch) {
+    public ResponseEntity<Object> saveSearch(@RequestParam String number, @RequestParam int numSearch) {
         if (number == null || number.isEmpty()) {
             return ResponseEntity.badRequest().body("Invalid line number.");
         }
-        SavedSearch savedSearch =new SavedSearch(number,numSearch)
+        SavedSearch savedSearch = new SavedSearch(number, numSearch);
         SavedSearch.savedSearches.add(savedSearch);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().build();
     }
-    @getMapping("/")
 
+    @GetMapping("/lastFromCookie")
+    public ResponseEntity<Object> getLastSearchFromCookie(jakarta.servlet.http.HttpServletRequest request,
+            HttpServletResponse response) {
+        String lastLineNumber = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("lastLineSearch".equals(cookie.getName())) {
+                    lastLineNumber = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        if (lastLineNumber != null && !lastLineNumber.isEmpty()) {
+            return getLineStations(lastLineNumber, response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No last line search found in cookies.");
+        }
+    }
 }
